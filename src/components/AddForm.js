@@ -1,6 +1,7 @@
 import { Form, Button } from "react-bootstrap";
 import { useState } from "react";
-import axios from "axios";
+import { addUsers } from "../Services/api";
+
 
 const AddForm = (props) => {
 
@@ -13,7 +14,7 @@ const AddForm = (props) => {
     e.preventDefault();
     const data = { name, email, phone, hobbies };
      props.setShow(false);
-    await axios.post("/add", data)
+     await addUsers(data);
   };
 
   return (

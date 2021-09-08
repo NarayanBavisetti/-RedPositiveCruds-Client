@@ -1,7 +1,9 @@
-import { useContext, useState, useEffect } from "react";
+import {useState, useEffect } from "react";
 import { Modal, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 import EditForm from "./EditForm";
 import Checkbox from "@material-ui/core/Checkbox";
+import { deleteUserData } from "../Services/api";
+
 
 const Employee = ({ employee, index }) => {
 
@@ -16,6 +18,10 @@ const Employee = ({ employee, index }) => {
   useEffect(() => {
     handleClose();
   }, [employee]);
+
+  async function deleteUser(id) {
+    await deleteUserData(id);
+  }
 
   return (
     <>
@@ -44,7 +50,7 @@ const Employee = ({ employee, index }) => {
         </OverlayTrigger>
         <OverlayTrigger overlay={<Tooltip id={`tooltip-top`}>Delete</Tooltip>}>
           <button
-            // onClick={() => deleteEmployee(employee.id)}
+            onClick={() => deleteUser(employee._id)}
             className="btn text-danger btn-act"
             data-toggle="modal"
           >

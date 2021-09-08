@@ -1,48 +1,24 @@
-import { Modal, Button, Alert } from "react-bootstrap";
-import { useContext, useEffect, useState } from "react";
+import { Modal, Button } from "react-bootstrap";
+import { useEffect, useState } from "react";
 import Employee from "./Employee";
 import AddForm from "./AddForm";
-
-import axios from "axios";
+import { getUsers } from "../Services/api";
 
 const EmployeeList = () => {
-//   const { sortedEmployees } = useContext(EmployeeContext);
-
-  const [showAlert, setShowAlert] = useState(false);
 
   const [show, setShow] = useState(false);
-
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
-  //const handleShowAlert = () =>setShowAlert(true);
 
   const [data, setData] = useState([]);
-
-  useEffect(async () => {
-    await axios.get("/users").then((res) => {
-      setData(res.data);
-    });
+  useEffect(() => {
+    allUsers();
   }, []);
-  console.log(data)
-//   const [currentPage, setCurrentPage] = useState(1);
-//   const [employeesPerPage] = useState(2);
 
-  const handleShowAlert = () => {
-    setShowAlert(true);
-    setTimeout(() => {
-      setShowAlert(false);
-    }, 2000);
+  const allUsers = async () => {
+    const response = await getUsers();
+    setData(response.data);
   };
-
-//   useEffect(() => {
-//     handleClose();
-
-//     return () => {
-//       handleShowAlert();
-//     };
-//   }, [sortedEmployees]);
-
-
 
   return (
     <>
@@ -66,10 +42,6 @@ const EmployeeList = () => {
         </div>
       </div>
 
-      <Alert show={showAlert} variant="success">
-        Users List Updated Succefully!
-      </Alert>
-
       <table className="table table-striped table-hover">
         <thead>
           <tr>
@@ -86,7 +58,7 @@ const EmployeeList = () => {
 
           {data.map((employee,index) => (
             <tr key={employee.id}>
-              <Employee employee={employee} index={index} />
+              <Employee employee={employee} index={index}  />
             </tr>
           ))}
         </tbody>
