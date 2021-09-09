@@ -1,20 +1,16 @@
 import {useState, useEffect } from "react";
 import { Modal, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 import EditForm from "./EditForm";
-import Checkbox from "@material-ui/core/Checkbox";
 import { deleteUserData } from "../Services/api";
 
 
 const Employee = ({ employee, index }) => {
 
   const [show, setShow] = useState(false);
-
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
-  const [checked, setChecked] = useState(false);
-  const handleChange = (event) => {
-    setChecked(event.target.checked);
-  };
+
+
   useEffect(() => {
     handleClose();
   }, [employee]);
@@ -23,16 +19,20 @@ const Employee = ({ employee, index }) => {
     await deleteUserData(id);
   }
 
+  // function sendEmail(e) {
+  //   e.preventDefault();
+  //   emailjs.sendForm(`${process.env.REACT_APP_SERVICE_ID}`, `${process.env.REACT_APP_TEMPLATE_ID}`, e.target, `${process.env.REACT_APP_USER_ID}`)
+  //     .then((result) => {
+  //         console.log(result.text);
+  //     }, (error) => {
+  //         console.log(error.text);
+  //     });
+  //     e.target.reset();
+  // }
+
   return (
     <>
-      <td>
-        {" "}
-        <Checkbox
-          onChange={handleChange}
-          color="primary"
-          inputProps={{ "aria-label": "secondary checkbox" }}
-        />
-      </td>
+
       <td>{index + 1}</td>
       <td>{employee.name}</td>
       <td>{employee.email}</td>

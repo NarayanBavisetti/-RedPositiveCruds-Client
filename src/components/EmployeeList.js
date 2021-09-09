@@ -2,10 +2,10 @@ import { Modal, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import Employee from "./Employee";
 import AddForm from "./AddForm";
-import { getUsers } from "../Services/api";
+import { getUsers, sendMail } from "../Services/api";
 
+import Checkbox from "@material-ui/core/Checkbox";
 const EmployeeList = () => {
-
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
@@ -18,6 +18,22 @@ const EmployeeList = () => {
   const allUsers = async () => {
     const response = await getUsers();
     setData(response.data);
+  };
+
+  const [workDays, setWorkDays] = useState([]);
+
+  async function sendEmail(e) {
+    e.preventDefault();
+    alert("Mail send successfully");
+    await sendMail(workDays);
+  }
+
+  const handleChange = (e) => {
+    let newArray = [...workDays, e.target.value];
+    if (workDays.includes(e.target.value)) {
+      newArray = newArray.filter((day) => day !== e.target.value);
+    }
+    setWorkDays(newArray);
   };
 
   return (
@@ -38,6 +54,12 @@ const EmployeeList = () => {
               <i className="material-icons">&#xE147;</i>{" "}
               <span>Add New Users</span>
             </Button>
+            {workDays.length ? (
+              <Button onClick={sendEmail}>
+                {" "}
+                <i className="material-icons file_upload">&#xe2c6;</i>Send
+              </Button>
+            ) : null}
           </div>
         </div>
       </div>
@@ -55,10 +77,18 @@ const EmployeeList = () => {
           </tr>
         </thead>
         <tbody>
-
-          {data.map((employee,index) => (
-            <tr key={employee.id}>
-              <Employee employee={employee} index={index}  />
+          {data.map((employee, index) => (
+            <tr key={employee._id}>
+              <td>
+                {" "}
+                <Checkbox
+                  onChange={handleChange}
+                  value={employee.name}
+                  color="primary"
+                  inputProps={{ "aria-label": "secondary checkbox" }}
+                />
+              </td>
+              <Employee employee={employee} index={index} setShow={setShow} />
             </tr>
           ))}
         </tbody>
@@ -73,7 +103,7 @@ const EmployeeList = () => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Close Button Yeee
+            Close Button
           </Button>
         </Modal.Footer>
       </Modal>
