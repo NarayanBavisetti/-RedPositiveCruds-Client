@@ -19,17 +19,6 @@ const Employee = ({ employee, index }) => {
     await deleteUserData(id);
   }
 
-  // function sendEmail(e) {
-  //   e.preventDefault();
-  //   emailjs.sendForm(`${process.env.REACT_APP_SERVICE_ID}`, `${process.env.REACT_APP_TEMPLATE_ID}`, e.target, `${process.env.REACT_APP_USER_ID}`)
-  //     .then((result) => {
-  //         console.log(result.text);
-  //     }, (error) => {
-  //         console.log(error.text);
-  //     });
-  //     e.target.reset();
-  // }
-
   return (
     <>
 
@@ -61,7 +50,7 @@ const Employee = ({ employee, index }) => {
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Edit Employee</Modal.Title>
+          <Modal.Title>Edit User</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <EditForm theEmployee={employee} />
